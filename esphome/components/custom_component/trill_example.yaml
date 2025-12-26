@@ -1,0 +1,155 @@
+# Configuration ESPHome pour capteur Trill
+esphome:
+  name: trill-sensor
+  platform: ESP32
+  board: esp32dev
+
+# Composants externes - placez votre dossier trill dans custom_components/
+external_components:
+  - source:
+      type: local
+      path: custom_components
+
+# Configuration I2C
+i2c:
+  sda: GPIO21
+  scl: GPIO22
+  scan: true
+  id: bus_a
+
+# Composant Trill principal
+trill:
+  - id: my_trill
+    device_type: BAR  # Options: BAR, SQUARE, RING, HEX, FLEX, CRAFT
+    mode: CENTROID    # Options: CENTROID, RAW, BASELINE, DIFF
+    address: 0x20     # Adresse I2C par défaut pour Bar
+    update_interval: 50ms  # Fréquence de mise à jour
+    
+    # Paramètres optionnels
+    scan_speed: 1     # 0=ultra_fast, 1=fast, 2=normal, 3=slow
+    num_bits: 12      # Résolution ADC: 9-16 bits
+    threshold: 50     # Seuil de bruit
+    prescaler: 2      # Prescaler: 1-8
+    minimum_touch_size: 100  # Taille minimum de toucher
+
+# Capteurs pour les positions de toucher
+sensor:
+  # Premier toucher - position
+  - platform: trill
+    trill_id: my_trill
+    type: location
+    touch_index: 0
+    name: "Touch 1 Position"
+    unit_of_measurement: ""
+    accuracy_decimals: 3
+    
+  # Premier toucher - taille
+  - platform: trill
+    trill_id: my_trill
+    type: size
+    touch_index: 0
+    name: "Touch 1 Size"
+    unit_of_measurement: ""
+    accuracy_decimals: 0
+  
+  # Deuxième toucher - position
+  - platform: trill
+    trill_id: my_trill
+    type: location
+    touch_index: 1
+    name: "Touch 2 Position"
+    unit_of_measurement: ""
+    accuracy_decimals: 3
+    
+  # Deuxième toucher - taille
+  - platform: trill
+    trill_id: my_trill
+    type: size
+    touch_index: 1
+    name: "Touch 2 Size"
+    unit_of_measurement: ""
+    accuracy_decimals: 0
+
+# Capteurs binaires pour détecter la présence de touches
+binary_sensor:
+  - platform: trill
+    trill_id: my_trill
+    touch_index: 0
+    name: "Touch 1 Active"
+    device_class: touch
+    
+  - platform: trill
+    trill_id: my_trill
+    touch_index: 1
+    name: "Touch 2 Active"
+    device_class: touch
+
+# Exemple de configuration pour un Trill Square (2D)
+# Décommentez pour utiliser Square au lieu de Bar
+#
+# trill:
+#   - id: my_trill_square
+#     device_type: SQUARE
+#     address: 0x28
+#     update_interval: 50ms
+#
+# sensor:
+#   # Position verticale
+#   - platform: trill
+#     trill_id: my_trill_square
+#     type: location
+#     touch_index: 0
+#     name: "Touch Vertical"
+#   
+#   # Position horizontale
+#   - platform: trill
+#     trill_id: my_trill_square
+#     type: horizontal
+#     touch_index: 0
+#     name: "Touch Horizontal"
+
+# Exemple pour Trill Ring avec boutons
+#
+# trill:
+#   - id: my_trill_ring
+#     device_type: RING
+#     address: 0x38
+#     update_interval: 50ms
+#
+# sensor:
+#   # Bouton 1
+#   - platform: trill
+#     trill_id: my_trill_ring
+#     type: button
+#     touch_index: 0
+#     name: "Ring Button 1"
+#   
+#   # Bouton 2
+#   - platform: trill
+#     trill_id: my_trill_ring
+#     type: button
+#     touch_index: 1
+#     name: "Ring Button 2"
+
+# Logging
+logger:
+  level: DEBUG
+
+# API pour Home Assistant
+api:
+  encryption:
+    key: "votre_clé_ici"
+
+# OTA pour mises à jour sans fil
+ota:
+  password: "votre_mot_de_passe"
+
+# WiFi
+wifi:
+  ssid: "Votre_SSID"
+  password: "Votre_Password"
+  
+  # Fallback hotspot
+  ap:
+    ssid: "Trill Fallback"
+    password: "12345678"
