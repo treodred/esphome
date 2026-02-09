@@ -93,5 +93,4 @@ namespace esphome {
         };
 
     }  // namespace trill
-
 }  // namespace esphome
