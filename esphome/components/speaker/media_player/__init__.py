@@ -157,8 +157,14 @@ def _read_audio_file_and_type(file_config):
 
     import puremagic
 
-    file_type: str = puremagic.from_string(data)
-    file_type = file_type.removeprefix(".")
+    try:
+        file_type: str = puremagic.from_string(data)
+        file_type = file_type.removeprefix(".")
+    except puremagic.PureError as e:
+        raise cv.Invalid(
+            f"Unable to determine audio file type of '{path}'. "
+            f"Try re-encoding the file into a supported format. Details: {e}"
+        )
 
     media_file_type = audio.AUDIO_FILE_TYPE_ENUM["NONE"]
     if file_type in ("wav"):
@@ -315,7 +321,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Optional(CONF_ON_VOLUME): automation.validate_automation(single=True),
         }
     ),
-    cv.only_with_esp_idf,
+    cv.only_on_esp32,
     _validate_repeated_speaker,
     _request_high_performance_networking,
 )
