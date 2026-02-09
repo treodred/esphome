@@ -1,0 +1,148 @@
+# Example ESPHome configuration for Trill sensors
+
+# Basic configuration for Trill Bar
+sensor:
+  - platform: trill
+    device_type: BAR
+    address: 0x20  # Optional, defaults to 0x20 for BAR
+    update_interval: 50ms
+    
+    # Number of active touches
+    num_touches:
+      name: "Trill Bar Touches"
+    
+    # Individual touch sensors (up to 5 for 1D devices)
+    touches:
+      - position:
+          name: "Touch 1 Position"
+        size:
+          name: "Touch 1 Size"
+      - position:
+          name: "Touch 2 Position"
+        size:
+          name: "Touch 2 Size"
+      - position:
+          name: "Touch 3 Position"
+        size:
+          name: "Touch 3 Size"
+
+---
+# Configuration for Trill Square (2D device)
+sensor:
+  - platform: trill
+    device_type: SQUARE
+    address: 0x28  # Optional, defaults to 0x28 for SQUARE
+    update_interval: 50ms
+    
+    num_touches:
+      name: "Trill Square Touches"
+    
+    # 2D devices support horizontal_position and horizontal_size
+    touches:
+      - position:
+          name: "Touch 1 Vertical Position"
+        size:
+          name: "Touch 1 Vertical Size"
+        horizontal_position:
+          name: "Touch 1 Horizontal Position"
+        horizontal_size:
+          name: "Touch 1 Horizontal Size"
+      - position:
+          name: "Touch 2 Vertical Position"
+        size:
+          name: "Touch 2 Vertical Size"
+        horizontal_position:
+          name: "Touch 2 Horizontal Position"
+        horizontal_size:
+          name: "Touch 2 Horizontal Size"
+
+---
+# Configuration for Trill Ring with buttons
+sensor:
+  - platform: trill
+    device_type: RING
+    address: 0x38  # Optional, defaults to 0x38 for RING
+    update_interval: 50ms
+    
+    num_touches:
+      name: "Trill Ring Touches"
+    
+    touches:
+      - position:
+          name: "Touch 1 Position"
+        size:
+          name: "Touch 1 Size"
+      - position:
+          name: "Touch 2 Position"
+        size:
+          name: "Touch 2 Size"
+    
+    # RING device has 2 buttons
+    buttons:
+      - name: "Ring Button 1"
+      - name: "Ring Button 2"
+
+---
+# Advanced configuration with custom scan settings
+sensor:
+  - platform: trill
+    device_type: BAR
+    update_interval: 50ms
+    
+    # Scan settings
+    scan_speed: FAST           # ULTRA_FAST, FAST, NORMAL, SLOW
+    scan_resolution: 12        # 9-16 bits
+    prescaler: 1               # 1-8
+    noise_threshold: 10        # 0-255
+    minimum_touch_size: 100    # Minimum centroid size
+    
+    num_touches:
+      name: "Bar Touches"
+    
+    touches:
+      - position:
+          name: "Touch Position"
+        size:
+          name: "Touch Size"
+
+---
+# Minimal configuration (just number of touches)
+sensor:
+  - platform: trill
+    device_type: FLEX
+    num_touches:
+      name: "Flex Touches"
+
+---
+# Complete I2C bus configuration example
+i2c:
+  sda: GPIO21
+  scl: GPIO22
+  scan: true
+  frequency: 400kHz
+
+sensor:
+  - platform: trill
+    device_type: BAR
+    address: 0x20
+    update_interval: 50ms
+    num_touches:
+      name: "Trill Touches"
+    touches:
+      - position:
+          name: "Touch 1 Pos"
+          id: touch1_pos
+          filters:
+            - sliding_window_moving_average:
+                window_size: 3
+                send_every: 1
+        size:
+          name: "Touch 1 Size"
+          id: touch1_size
+
+# You can use the sensor data in automations
+binary_sensor:
+  - platform: template
+    name: "Touch Active"
+    lambda: |-
+      return id(touch1_size).state > 100;
