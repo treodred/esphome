@@ -48,22 +48,22 @@ namespace esphome {
             // Apply advanced settings if configured
             if (scan_speed_ != 0 || scan_resolution_ != 12) {
                 trill_device_.setScanSettings(scan_speed_, scan_resolution_);
-                delay(Trill::interCommandDelay);
+                esphome::delay(Trill::interCommandDelay);
             }
 
             if (prescaler_ != 1) {
                 trill_device_.setPrescaler(prescaler_);
-                delay(Trill::interCommandDelay);
+                esphome::delay(Trill::interCommandDelay);
             }
 
             if (noise_threshold_ != 0) {
                 trill_device_.setNoiseThreshold(noise_threshold_);
-                delay(Trill::interCommandDelay);
+                esphome::delay(Trill::interCommandDelay);
             }
 
             if (minimum_touch_size_ != 0) {
                 trill_device_.setMinimumTouchSize(minimum_touch_size_);
-                delay(Trill::interCommandDelay);
+                esphome::delay(Trill::interCommandDelay);
             }
 
             ESP_LOGCONFIG(TAG, "Trill setup complete");

@@ -51,7 +51,7 @@ int Trill::begin(Device device, esphome::i2c::I2CDevice* i2c_device) {
 
 	/* Put the device in the correspondent mode */
 	setMode(mode);
-	delay(interCommandDelay);
+	esphome::delay(interCommandDelay);
 
 	Touches::centroids = buffer_;
 	Touches::sizes = buffer_ + MAX_TOUCH_1D_OR_2D;
@@ -64,10 +64,10 @@ int Trill::begin(Device device, esphome::i2c::I2CDevice* i2c_device) {
 
 	/* Set default scan settings */
 	setScanSettings(0, 12);
-	delay(interCommandDelay);
+	esphome::delay(interCommandDelay);
 
 	updateBaseline();
-	delay((firmware_version_ >= 3 ? 10 : 1) * interCommandDelay);
+	esphome::delay((firmware_version_ >= 3 ? 10 : 1) * interCommandDelay);
 
 	return 0;
 }
@@ -81,7 +81,7 @@ int Trill::identify() {
 	}
 
 	/* Give Trill time to process this command */
-	delay(25);
+	esphome::delay(25);
 
 	last_read_loc_ = kOffsetCommand;
 
@@ -119,7 +119,7 @@ const char* Trill::getNameFromDevice(Device device) {
 }
 
 /* Read the latest scan value from the sensor. Returns true on success. */
-boolean Trill::read() {
+bool Trill::read() {
 	if (CENTROID != mode_)
 		return false;
 	uint8_t loc = 0;
@@ -145,7 +145,7 @@ boolean Trill::read() {
 	}
 
 	uint8_t maxNumCentroids = MAX_TOUCH_1D_OR_2D;
-	boolean ret = true;
+	bool ret = true;
 
 	processCentroids(maxNumCentroids);
 	if (is2D())
@@ -163,7 +163,7 @@ void Trill::updateBaseline() {
 }
 
 /* Request raw data; wrappers for I2C */
-boolean Trill::requestRawData(uint8_t max_length) {
+bool Trill::requestRawData(uint8_t max_length) {
 	uint8_t length = 0;
 
 	prepareForDataRead();

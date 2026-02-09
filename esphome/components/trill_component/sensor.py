@@ -4,6 +4,7 @@ from esphome.components import i2c, sensor
 from esphome.const import (
     CONF_ID,
     STATE_CLASS_MEASUREMENT,
+    ICON_GESTURE,
 )
 
 DEPENDENCIES = ["i2c"]
@@ -89,22 +90,22 @@ TOUCH_SCHEMA = cv.Schema({
     cv.Optional(CONF_POSITION): sensor.sensor_schema(
         accuracy_decimals=0,
         state_class=STATE_CLASS_MEASUREMENT,
-      
+        icon=ICON_GESTURE,
     ),
     cv.Optional(CONF_SIZE): sensor.sensor_schema(
         accuracy_decimals=0,
         state_class=STATE_CLASS_MEASUREMENT,
-      
+        icon=ICON_GESTURE,
     ),
     cv.Optional(CONF_HORIZONTAL_POSITION): sensor.sensor_schema(
         accuracy_decimals=0,
         state_class=STATE_CLASS_MEASUREMENT,
-      
+        icon=ICON_GESTURE,
     ),
     cv.Optional(CONF_HORIZONTAL_SIZE): sensor.sensor_schema(
         accuracy_decimals=0,
         state_class=STATE_CLASS_MEASUREMENT,
-      
+        icon=ICON_GESTURE,
     ),
 })
 
@@ -112,7 +113,7 @@ TOUCH_SCHEMA = cv.Schema({
 BUTTON_SCHEMA = sensor.sensor_schema(
     accuracy_decimals=0,
     state_class=STATE_CLASS_MEASUREMENT,
-  
+    icon=ICON_GESTURE,
 )
 
 CONFIG_SCHEMA = cv.All(
@@ -122,7 +123,7 @@ CONFIG_SCHEMA = cv.All(
         cv.Optional(CONF_NUM_TOUCHES): sensor.sensor_schema(
             accuracy_decimals=0,
             state_class=STATE_CLASS_MEASUREMENT,
-          
+            icon=ICON_GESTURE,
         ),
         cv.Optional(CONF_TOUCHES): cv.ensure_list(TOUCH_SCHEMA),
         cv.Optional(CONF_BUTTONS): cv.ensure_list(BUTTON_SCHEMA),
@@ -200,6 +201,4 @@ async def to_code(config):
             if i >= 2:  # Max 2 buttons
                 break
             sens = await sensor.new_sensor(button_config)
-
             cg.add(var.set_button_sensor(i, sens))
-

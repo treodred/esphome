@@ -7,7 +7,7 @@ DEPENDENCIES = ['i2c']
 CODEOWNERS = ['@yourusername']
 
 # Namespace
-trill_ns = cg.esphome_ns.namespace('trill_component')
+trill_ns = cg.esphome_ns.namespace('trill')
 TrillComponent = trill_ns.class_('TrillComponent', cg.PollingComponent, i2c.I2CDevice)
 
 # Enums
