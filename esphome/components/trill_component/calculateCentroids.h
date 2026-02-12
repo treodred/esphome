@@ -1,19 +1,19 @@
 // returns a WORD packing two signed chars. The high bytes is the last active sensor in the last centroid,
 // while the low byte is the first active sensor of the last centroid
 typedef uint16_t WORD;
-typedef uint8_t WORD;
+typedef uint8_t BYTE;
 
-WORD calculateCentroids(WORD *centroidBuffer, WORD *sizeBuffer, BYTE maxNumCentroids, BYTE minSensor, BYTE maxSensor, BYTE numSensors) {
+uint16_t calculateCentroids(uint16_t *centroidBuffer, uint16_t *sizeBuffer, uint8_t maxNumCentroids, uint8_t minSensor, uint8_t maxSensor, uint8_t numSensors) {
 	signed char lastActiveSensor = -1;
-	BYTE centroidIndex = 0, sensorIndex, actualHardwareIndex;
-	BYTE wrappedAround = 0;
-	BYTE inCentroid = 0;
-	WORD peakValue = 0, troughDepth = 0;
-	BYTE counter;
+	uint8_t centroidIndex = 0, sensorIndex, actualHardwareIndex;
+	uint8_t wrappedAround = 0;
+	uint8_t inCentroid = 0;
+	uint16_t peakValue = 0, troughDepth = 0;
+	uint8_t counter;
 	long temp;
 
-	WORD lastSensorVal, currentSensorVal, currentWeightedSum, currentUnweightedSum;
-	BYTE currentStart, currentLength;
+	uint16_t lastSensorVal, currentSensorVal, currentWeightedSum, currentUnweightedSum;
+	uint8_t currentStart, currentLength;
 
 	for(sensorIndex = 0; sensorIndex < maxNumCentroids; sensorIndex++) {
 		centroidBuffer[sensorIndex] = 0xFFFF;
