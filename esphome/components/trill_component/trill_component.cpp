@@ -2,8 +2,8 @@
  * Trill Component for ESPHome
  * Implementation
  */
-
-#include "trill_component.h"
+#include "esphome/components/trill_component/trill_component.h"
+//#include "trill_component.h"
 #include "esphome/core/log.h"
 
 namespace esphome {
