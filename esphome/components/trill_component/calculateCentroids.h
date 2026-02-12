@@ -1,7 +1,7 @@
 // returns a WORD packing two signed chars. The high bytes is the last active sensor in the last centroid,
 // while the low byte is the first active sensor of the last centroid
-typedef unsigned short WORD;
-typedef unsigned char BYTE;
+typedef uint16_t WORD;
+typedef uint8_t WORD;
 
 WORD calculateCentroids(WORD *centroidBuffer, WORD *sizeBuffer, BYTE maxNumCentroids, BYTE minSensor, BYTE maxSensor, BYTE numSensors) {
 	signed char lastActiveSensor = -1;
