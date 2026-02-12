@@ -8,7 +8,7 @@
 #include "esphome/core/component.h"
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/i2c/i2c.h"
-#include "trill.h"
+#include "esphome/components/trill_component/trill.h"
 
 namespace esphome {
     namespace trill {
@@ -93,4 +93,5 @@ namespace esphome {
         };
 
     }  // namespace trill
+
 }  // namespace esphome
