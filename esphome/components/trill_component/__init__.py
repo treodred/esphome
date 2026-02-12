@@ -11,7 +11,8 @@ trill_ns = cg.esphome_ns.namespace('trill')
 TrillComponent = trill_ns.class_('TrillComponent', cg.PollingComponent, i2c.I2CDevice)
 
 # Enums
-TrillDevice = trill_ns.enum('TrillDevice')
+TrillDevice = trill_ns.enum('device_type_')
+//TrillDevice = trill_ns.enum('TrillDevice')
 TRILL_DEVICES = {
     'BAR': TrillDevice.TRILL_BAR,
     'SQUARE': TrillDevice.TRILL_SQUARE,
