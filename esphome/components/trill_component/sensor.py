@@ -15,7 +15,7 @@ TrillComponent = trill_ns.class_("TrillComponent", cg.PollingComponent, i2c.I2CD
 
 # Trill device types enum
 TrillDevice = trill_ns.enum("device_type_", is_class=True)
-//TrillDevice = trill_ns.enum("TrillDevice", is_class=True)
+#TrillDevice = trill_ns.enum("TrillDevice", is_class=True)
 TRILL_DEVICES = {
     "BAR": TrillDevice.TRILL_BAR,
     "SQUARE": TrillDevice.TRILL_SQUARE,
@@ -204,5 +204,6 @@ async def to_code(config):
             sens = await sensor.new_sensor(button_config)
 
             cg.add(var.set_button_sensor(i, sens))
+
 
 
