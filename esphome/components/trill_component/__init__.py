@@ -12,7 +12,7 @@ TrillComponent = trill_ns.class_('TrillComponent', cg.PollingComponent, i2c.I2CD
 
 # Enums
 TrillDevice = trill_ns.enum('device_type_')
-//TrillDevice = trill_ns.enum('TrillDevice')
+#TrillDevice = trill_ns.enum('TrillDevice')
 TRILL_DEVICES = {
     'BAR': TrillDevice.TRILL_BAR,
     'SQUARE': TrillDevice.TRILL_SQUARE,
