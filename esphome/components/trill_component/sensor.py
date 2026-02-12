@@ -10,7 +10,7 @@ from esphome.const import (
 DEPENDENCIES = ["i2c"]
 CODEOWNERS = ["@yourusername"]
 
-trill_ns = cg.esphome_ns.namespace("trill")
+trill_ns = cg.esphome_ns.namespace("TrillDevice")
 TrillComponent = trill_ns.class_("TrillComponent", cg.PollingComponent, i2c.I2CDevice)
 
 # Trill device types enum
@@ -204,6 +204,7 @@ async def to_code(config):
             sens = await sensor.new_sensor(button_config)
 
             cg.add(var.set_button_sensor(i, sens))
+
 
 
 
