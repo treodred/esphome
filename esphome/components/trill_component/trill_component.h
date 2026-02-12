@@ -13,7 +13,9 @@
 namespace esphome {
     namespace trill {
 
-        class TrillComponent : public PollingComponent, public i2c::I2CDevice {
+        enum TrillDevice = Trill::Device;
+        
+class TrillComponent : public PollingComponent, public i2c::I2CDevice {
         public:
             TrillComponent() = default;
 
@@ -95,3 +97,4 @@ namespace esphome {
     }  // namespace trill
 
 }  // namespace esphome
+
