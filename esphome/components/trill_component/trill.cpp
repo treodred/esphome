@@ -8,7 +8,7 @@
  * BSD license
  */
 
-#include "trill.h"
+#include "esphome/components/trill_component/trill.h"
 
 #define MAX_TOUCH_1D_OR_2D (((device_type_ == TRILL_SQUARE || device_type_ == TRILL_HEX) ? kMaxTouchNum2D : kMaxTouchNum1D))
 #define RAW_LENGTH ((device_type_ == TRILL_BAR ? 2 * kNumChannelsBar \
@@ -364,4 +364,5 @@ int Touches2D::touchHorizontalLocation(uint8_t touch_num) {
 
 int Touches2D::touchHorizontalSize(uint8_t touch_num) {
 	return horizontal.touchSize(touch_num);
+
 }
